@@ -5,17 +5,30 @@ Tetris is not a solved game. With the individual pieces being randomly generated
 This project has the opportunity to take advantage of Problem Solving and Uninformed/Informed Search for picking the best move, Game Playing for playing the game, Knowledge Based Agents for tackling the problem at hand, Uncertainty handling and probability for the unknown pieces you could receive next in line. Reinforcement learning can be used to have the model play the game, and iteratively improve its decision making process.
 
 ## Requirements
-- Python 3.5 (a virtual environment is probably a good idea)
+- Python 3.10 (a virtual environment is probably a good idea)
 
 ## Setup
 ```bash
 cd ~
 brew install pyenv
-pyenv install 3.5
+pyenv install 3.10
+pyenv global 3.10
 
+git clone https://github.com/Christina-Chau/AI801-surviving-in-tetris.git
+cd ../AI801-surviving-in-tetris
+source ~/.bash_profile
 pyenv init
 ## Follow the instructions pyenv gives to set up your bash config.
-pyenv shell 3.5
-python3 --version ## Python 3.5.10
+pyenv shell 3.10
+python3 --version ## Python 3.10
 python3 -m venv .venv
 source .venv/bin/activate
+
+pip3 install -r src/requirements.pip
+```
+
+## Exiting the Virtual Environment
+To exit the virtual environment, simply run:
+```bash
+deactivate
+```
