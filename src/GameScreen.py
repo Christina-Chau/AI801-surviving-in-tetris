@@ -16,19 +16,19 @@ class GameScreen:
         pygame.display.set_caption("Tetris")
 
     def draw_board(self):
-        # Draw the cells first
+        # Draw the cells
         for y in range(self.game.board.height):
             for x in range(self.game.board.width):
                 color = (255, 255, 255) if self.game.board.get_cell(x, y) == 0 else (0, 255, 0)
                 pygame.draw.rect(self.screen, color,
                                  (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
 
-        # Draw grid lines on top
+        # Draw gray grid lines
         for y in range(self.game.board.height + 1):
-            pygame.draw.line(self.screen, (150, 150, 150), (0, y * self.cell_size),
+            pygame.draw.line(self.screen, (128, 128, 128), (0, y * self.cell_size),
                              (self.game.board.width * self.cell_size, y * self.cell_size))
         for x in range(self.game.board.width + 1):
-            pygame.draw.line(self.screen, (150, 150, 150), (x * self.cell_size, 0),
+            pygame.draw.line(self.screen, (128, 128, 128), (x * self.cell_size, 0),
                              (x * self.cell_size, self.game.board.height * self.cell_size))
 
     def draw_tetromino(self):
@@ -39,8 +39,14 @@ class GameScreen:
 
     def draw_next_piece(self):
         """Draw the upcoming tetromino piece."""
+        font = pygame.font.Font(None, 24)  # Font size 24
+        label = font.render("Next Piece", True, (255, 255, 255))  # White color
+        label_x = self.game.width * self.cell_size + 20
+        label_y = 40
+        self.screen.blit(label, (label_x, label_y))
+
         next_piece_x = self.game.width * self.cell_size + 20
-        next_piece_y = 50
+        next_piece_y = 65
         for x, y in self.game.next_tetromino.value:
             pygame.draw.rect(self.screen, (0, 0, 255),
                              (next_piece_x + x * self.cell_size, next_piece_y + y * self.cell_size, self.cell_size,
@@ -86,6 +92,6 @@ class GameScreen:
         pygame.quit()
 
     def draw_score(self):
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font(None, 24)
         score_text = font.render(f"Score: {self.game.score}", True, (255, 255, 255))  # White color
         self.screen.blit(score_text, (self.game.width * self.cell_size + 20, 10))

@@ -25,10 +25,18 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 pip3 install -r src/requirements.pip
+export PYTHONPATH=$(pwd)
+
 ```
 
 ## Exiting the Virtual Environment
 To exit the virtual environment, simply run:
 ```bash
 deactivate
+```
+
+## Running the Game
+To run the game, you can use the following command:
+```bash
+python3 src/__init__.py
 ```
