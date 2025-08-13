@@ -40,3 +40,14 @@ To run the game, you can use the following command:
 ```bash
 python3 src/__init__.py
 ```
+To play the game, use the left, right, and down arrow keys to move the pieces. 
+
+Current limitations to the game include:
+- Rotating the pieces.
+- "Hard drop" functionality.
+- "Holding" a piece
+
+The score is calculated as follows:
+- Simply placing the piece will give you 10 points
+- Clearing one line will give you 100 points
+- Clearing multiple lines will give you (num of lines cleared * 100 points) + 10% for every line cleared

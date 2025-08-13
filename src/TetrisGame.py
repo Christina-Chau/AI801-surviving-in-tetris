@@ -18,15 +18,6 @@ class TetrisGame(Game):
     def generate_tetromino(self):
         return random.choice(list(Tetromino))
 
-    def actions(self, state):
-        """Return a collection of allowable moves for the current Tetromino."""
-        moves = []
-        for dx in [-1, 0, 1]:  # Left, stay, right
-            new_position = (self.current_position[0] + dx, self.current_position[1] + 1)
-            if not state.check_collision(self.current_tetromino, new_position):
-                moves.append(new_position)
-        return moves
-
     def result(self, state, move):
         """Return the state that results from making a move."""
         new_board = state.new({})
@@ -38,14 +29,6 @@ class TetrisGame(Game):
         self.current_tetromino = random.choice(list(Tetromino))
         self.current_position = (state.width // 2, 0)
         return new_board
-
-    def is_terminal(self, state):
-        """Return True if the game is over."""
-        return state.check_collision(self.current_tetromino, self.current_position)
-
-    def utility(self, state, player=None):
-        """Return the score as the utility of the state."""
-        return self.score
 
     def move_tetromino(self, direction):
         """Move the current tetromino in the given direction."""
@@ -83,7 +66,7 @@ class TetrisGame(Game):
         rows_cleared = len(full_rows)
         if rows_cleared > 0:
             base_score = rows_cleared * 100
-            bonus = int(base_score * 0.1)  # 10% bonus
+            bonus = int(base_score * 0.1 * rows_cleared)
             self.score += base_score + bonus
 
     def is_game_over(self):
