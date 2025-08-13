@@ -9,10 +9,22 @@ class GameScreen:
     def __init__(self, game: TetrisGame, cell_size=10):
         self.game = game
         self.cell_size = cell_size
-        self.screen = pygame.display.set_mode((game.width * cell_size, game.height * cell_size))
+        # Increase the screen width to include space for the upcoming piece and score
+        screen_width = game.width * cell_size + 150
+        screen_height = game.height * cell_size
+        self.screen = pygame.display.set_mode((screen_width, screen_height))
         pygame.display.set_caption("Tetris")
 
     def draw_board(self):
+        # Draw the grid lines
+        for y in range(self.game.board.height + 1):
+            pygame.draw.line(self.screen, (150, 150, 150), (0, y * self.cell_size),
+                             (self.game.board.width * self.cell_size, y * self.cell_size))
+        for x in range(self.game.board.width + 1):
+            pygame.draw.line(self.screen, (150, 150, 150), (x * self.cell_size, 0),
+                             (x * self.cell_size, self.game.board.height * self.cell_size))
+
+        # Draw the cells
         for y in range(self.game.board.height):
             for x in range(self.game.board.width):
                 color = (255, 255, 255) if self.game.board.get_cell(x, y) == 0 else (0, 255, 0)
@@ -24,6 +36,15 @@ class GameScreen:
             y += self.game.current_position[1]
             pygame.draw.rect(self.screen, (255, 0, 0), (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
 
+    def draw_next_piece(self):
+        """Draw the upcoming tetromino piece."""
+        next_piece_x = self.game.width * self.cell_size + 20
+        next_piece_y = 50
+        for x, y in self.game.next_tetromino.value:
+            pygame.draw.rect(self.screen, (0, 0, 255),
+                             (next_piece_x + x * self.cell_size, next_piece_y + y * self.cell_size, self.cell_size,
+                              self.cell_size))
+
     def play(self):
         pygame.init()
         clock = pygame.time.Clock()
@@ -34,6 +55,9 @@ class GameScreen:
             self.screen.fill((0, 0, 0))
             self.draw_board()
             self.draw_tetromino()
+            self.draw_next_piece()
+            self.draw_score()
+            self.game.clear_rows()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -60,3 +84,8 @@ class GameScreen:
             clock.tick(fall_speed)
 
         pygame.quit()
+
+    def draw_score(self):
+        font = pygame.font.Font(None, 36)
+        score_text = font.render(f"Score: {self.game.score}", True, (255, 255, 255))  # White color
+        self.screen.blit(score_text, (self.game.width * self.cell_size + 20, 10))
